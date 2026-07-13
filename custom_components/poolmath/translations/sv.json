@@ -50,7 +50,13 @@
       "csi": { "name": "CSI" },
       "water_temp": { "name": "Vattentemperatur" },
       "swg_cell_percent": { "name": "SWG-celleffekt" },
-      "pressure": { "name": "Filtertryck" }
+      "pressure": { "name": "Filtertryck" },
+      "backwashed": { "name": "Dagar sedan bakspolning" },
+      "brushed": { "name": "Dagar sedan borstning" },
+      "cleaned_filter": { "name": "Dagar sedan filterrengöring" },
+      "vacuumed": { "name": "Dagar sedan dammsugning" },
+      "opened": { "name": "Dagar sedan öppning" },
+      "closed": { "name": "Dagar sedan stängning" }
     }
   }
 }

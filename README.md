@@ -22,8 +22,14 @@ Sensorer skapas automatiskt för de värden som finns i din pooldata:
 | Vattentemperatur | °C/°F (valbart) |
 | SWG-celleffekt | % |
 | Filtertryck | – |
+| Dagar sedan bakspolning | dagar |
+| Dagar sedan borstning | dagar |
+| Dagar sedan filterrengöring | dagar |
+| Dagar sedan dammsugning | dagar |
+| Dagar sedan öppning | dagar |
+| Dagar sedan stängning | dagar |
 
-Alla sensorer samlas under en enhet med poolens namn och har attributet `last_measured` när API:et anger tidsstämpel.
+"Dagar sedan"-sensorerna skapas bara om du loggat aktiviteten minst en gång i Pool Math-appen. Alla sensorer samlas under en enhet med poolens namn och har attributet `last_measured` när API:et anger tidsstämpel.
 
 ## Installation via HACS
 
