@@ -1,0 +1,56 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Project Poolmath",
+        "description": "Ange din Pool Math-delningslänk (t.ex. https://api.poolmathapp.com/share/abc123) eller bara delnings-ID:t. Du hittar den i Pool Math-appen under Settings > Sharing.",
+        "data": {
+          "share_id": "Delningslänk eller ID"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kunde inte ansluta till Pool Math-API:et",
+      "invalid_share_id": "Ogiltig delningslänk eller ID",
+      "unknown": "Oväntat fel"
+    },
+    "abort": {
+      "already_configured": "Den här poolen är redan konfigurerad"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Project Poolmath-inställningar",
+        "data": {
+          "scan_interval_minutes": "Uppdateringsintervall (minuter)",
+          "temp_unit": "Temperaturenhet"
+        }
+      }
+    }
+  },
+  "selector": {
+    "temp_unit": {
+      "options": {
+        "celsius": "Celsius (°C)",
+        "fahrenheit": "Fahrenheit (°F)"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "fc": { "name": "Fritt klor (FC)" },
+      "cc": { "name": "Bundet klor (CC)" },
+      "ph": { "name": "pH" },
+      "ta": { "name": "Total alkalinitet (TA)" },
+      "ch": { "name": "Kalciumhårdhet (CH)" },
+      "cya": { "name": "Cyanursyra (CYA)" },
+      "salt": { "name": "Salt" },
+      "borate": { "name": "Borat" },
+      "csi": { "name": "CSI" },
+      "water_temp": { "name": "Vattentemperatur" },
+      "swg_cell_percent": { "name": "SWG-celleffekt" },
+      "pressure": { "name": "Filtertryck" }
+    }
+  }
+}
