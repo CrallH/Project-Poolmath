@@ -42,7 +42,7 @@ Sensorer skapas automatiskt för de värden som finns i din pooldata:
 
 1. **Inställningar → Enheter & tjänster → Lägg till integration**
 2. Sök på **Project Poolmath**
-3. Klistra in din delningslänk, t.ex. `https://api.poolmathapp.com/share/Q5kpgY5`
+3. Klistra in din delningslänk, t.ex. `https://api.poolmathapp.com/share/XXXxxxX`
    (finns i Pool Math-appen under *Settings → Sharing*)
 
 Under **Konfigurera** på integrationen kan du sedan ändra:
