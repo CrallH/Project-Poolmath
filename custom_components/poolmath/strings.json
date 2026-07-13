@@ -1,0 +1,56 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Project Poolmath",
+        "description": "Enter your Pool Math share URL (e.g. https://api.poolmathapp.com/share/abc123) or just the share ID. You find it in the Pool Math app under Settings > Sharing.",
+        "data": {
+          "share_id": "Share URL or ID"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the Pool Math API",
+      "invalid_share_id": "Invalid share URL or ID",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This pool is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Project Poolmath options",
+        "data": {
+          "scan_interval_minutes": "Update interval (minutes)",
+          "temp_unit": "Temperature unit"
+        }
+      }
+    }
+  },
+  "selector": {
+    "temp_unit": {
+      "options": {
+        "celsius": "Celsius (°C)",
+        "fahrenheit": "Fahrenheit (°F)"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "fc": { "name": "Free chlorine (FC)" },
+      "cc": { "name": "Combined chlorine (CC)" },
+      "ph": { "name": "pH" },
+      "ta": { "name": "Total alkalinity (TA)" },
+      "ch": { "name": "Calcium hardness (CH)" },
+      "cya": { "name": "Cyanuric acid (CYA)" },
+      "salt": { "name": "Salt" },
+      "borate": { "name": "Borate" },
+      "csi": { "name": "CSI" },
+      "water_temp": { "name": "Water temperature" },
+      "swg_cell_percent": { "name": "SWG cell output" },
+      "pressure": { "name": "Filter pressure" }
+    }
+  }
+}
