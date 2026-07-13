@@ -15,11 +15,13 @@ from homeassistant.const import (
     CONCENTRATION_PARTS_PER_MILLION,
     PERCENTAGE,
     UnitOfTemperature,
+    UnitOfTime,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.util import dt as dt_util
 
 from . import PoolMathConfigEntry
 from .const import (
@@ -135,6 +137,71 @@ SENSOR_TYPES: tuple[PoolMathSensorEntityDescription, ...] = (
 )
 
 
+@dataclass(frozen=True, kw_only=True)
+class PoolMathDaysSinceSensorEntityDescription(SensorEntityDescription):
+    """Describes a Pool Math 'days since last logged' sensor."""
+
+    ts_key: str
+
+
+STATUS_SENSOR_TYPES: tuple[PoolMathDaysSinceSensorEntityDescription, ...] = (
+    PoolMathDaysSinceSensorEntityDescription(
+        key="backwashed",
+        ts_key="backwashedTs",
+        translation_key="backwashed",
+        device_class=SensorDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.DAYS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:pool",
+    ),
+    PoolMathDaysSinceSensorEntityDescription(
+        key="brushed",
+        ts_key="brushedTs",
+        translation_key="brushed",
+        device_class=SensorDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.DAYS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:broom",
+    ),
+    PoolMathDaysSinceSensorEntityDescription(
+        key="cleaned_filter",
+        ts_key="cleanedFilterTs",
+        translation_key="cleaned_filter",
+        device_class=SensorDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.DAYS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:air-filter",
+    ),
+    PoolMathDaysSinceSensorEntityDescription(
+        key="vacuumed",
+        ts_key="vacuumedTs",
+        translation_key="vacuumed",
+        device_class=SensorDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.DAYS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:robot-vacuum",
+    ),
+    PoolMathDaysSinceSensorEntityDescription(
+        key="opened",
+        ts_key="openedTs",
+        translation_key="opened",
+        device_class=SensorDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.DAYS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:calendar-start",
+    ),
+    PoolMathDaysSinceSensorEntityDescription(
+        key="closed",
+        ts_key="closedTs",
+        translation_key="closed",
+        device_class=SensorDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.DAYS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:calendar-end",
+    ),
+)
+
+
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: PoolMathConfigEntry,
@@ -144,12 +211,17 @@ async def async_setup_entry(
     coordinator = entry.runtime_data
     overview: dict[str, Any] = coordinator.data.get("overview") or {}
 
-    entities = [
+    entities: list[SensorEntity] = [
         PoolMathSensor(coordinator, entry, description)
         for description in SENSOR_TYPES
         if description.json_key in overview
         and overview.get(description.json_key) is not None
     ]
+    entities.extend(
+        PoolMathDaysSinceSensor(coordinator, description)
+        for description in STATUS_SENSOR_TYPES
+        if overview.get(description.ts_key) is not None
+    )
     async_add_entities(entities)
 
 
@@ -203,4 +275,51 @@ class PoolMathSensor(CoordinatorEntity[PoolMathCoordinator], SensorEntity):
         ):
             if overview.get(ts_key):
                 return {ATTR_LAST_MEASURED: overview[ts_key]}
+        return None
+
+
+class PoolMathDaysSinceSensor(CoordinatorEntity[PoolMathCoordinator], SensorEntity):
+    """Days elapsed since a maintenance activity was last logged in Pool Math."""
+
+    entity_description: PoolMathDaysSinceSensorEntityDescription
+    _attr_has_entity_name = True
+
+    def __init__(
+        self,
+        coordinator: PoolMathCoordinator,
+        description: PoolMathDaysSinceSensorEntityDescription,
+    ) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self.entity_description = description
+        self._attr_unique_id = f"{coordinator.share_id}_{description.key}"
+
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, coordinator.share_id)},
+            name=coordinator.data.get("name") or "Pool Math",
+            manufacturer="Trouble Free Pool",
+            model="Pool Math",
+            entry_type=DeviceEntryType.SERVICE,
+            configuration_url=SHARE_URL.format(share_id=coordinator.share_id),
+        )
+
+    @property
+    def native_value(self) -> int | None:
+        """Return the number of days since the activity was last logged."""
+        overview = self.coordinator.data.get("overview") or {}
+        timestamp = overview.get(self.entity_description.ts_key)
+        if not timestamp:
+            return None
+        parsed = dt_util.parse_datetime(timestamp)
+        if parsed is None:
+            return None
+        return (dt_util.utcnow() - parsed).days
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        """Return the raw last-logged timestamp."""
+        overview = self.coordinator.data.get("overview") or {}
+        timestamp = overview.get(self.entity_description.ts_key)
+        if timestamp:
+            return {ATTR_LAST_MEASURED: timestamp}
         return None

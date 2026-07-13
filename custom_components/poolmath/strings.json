@@ -50,7 +50,13 @@
       "csi": { "name": "CSI" },
       "water_temp": { "name": "Water temperature" },
       "swg_cell_percent": { "name": "SWG cell output" },
-      "pressure": { "name": "Filter pressure" }
+      "pressure": { "name": "Filter pressure" },
+      "backwashed": { "name": "Days since backwash" },
+      "brushed": { "name": "Days since brushed" },
+      "cleaned_filter": { "name": "Days since filter cleaned" },
+      "vacuumed": { "name": "Days since vacuumed" },
+      "opened": { "name": "Days since opened" },
+      "closed": { "name": "Days since closed" }
     }
   }
 }
