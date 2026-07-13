@@ -3,10 +3,10 @@
   "name": "Project Poolmath",
   "codeowners": ["@CrallH"],
   "config_flow": true,
-  "documentation": "https://github.com/CrallH/Project-Poolmath-",
+  "documentation": "https://github.com/CrallH/Project-Poolmath",
   "integration_type": "service",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/CrallH/Project-Poolmath-/issues",
+  "issue_tracker": "https://github.com/CrallH/Project-Poolmath/issues",
   "requirements": [],
   "version": "1.0.2"
 }
