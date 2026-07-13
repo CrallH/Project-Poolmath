@@ -28,7 +28,7 @@ Alla sensorer samlas under en enhet med poolens namn och har attributet `last_me
 ## Installation via HACS
 
 1. HACS → menyn (⋮) uppe till höger → **Custom repositories**
-2. Lägg till `https://github.com/CrallH/Project-Poolmath-` med typ **Integration**
+2. Lägg till `https://github.com/CrallH/Project-Poolmath` med typ **Integration**
 3. Sök efter **Project Poolmath** i HACS och installera
 4. Starta om Home Assistant
 
